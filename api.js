@@ -8,7 +8,6 @@ export const searchevents = async (params = {}) => {
     if (params.category) query.append('category', params.category);
     if (params.day)      query.append('day', params.day);
     if (params.venue)    query.append('venue', params.venue);
-    const url = `${BASE_URL}/search?${query.toString()}`;
-    const response = await fetch(url);
+    const response = await fetch(`${BASE_URL}/search?${query.toString()}`);
     const data = await response.json();
     return data;};
