@@ -16,6 +16,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.aarushgupta2007.festexplorer2",
       "adaptiveIcon": {
         "foregroundImage": "./assets/image.png",
         "backgroundColor": "#1A1A2E"
@@ -24,6 +25,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b060cf34-40c1-4131-8c35-868933334c5f"
+      }
     }
   }
 }
