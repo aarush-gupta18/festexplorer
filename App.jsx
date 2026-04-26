@@ -14,12 +14,12 @@ function assigncolor(cat) {
   if (!colorlist[key]) {
     colorlist[key] = randomcolor();}
   return colorlist[key];}
-const lineupidentity = 'festexplorer_lineup';
+const lineupidentity = '';
 function EventCard({ event, isSaved, savepressed }) {
-  const catcolor = assigncolor(event.category);
+  const categorycolor = assigncolor(event.category);
   return (
     <View style={style.card}>
-      <View style={[style.categorydesign, { backgroundColor: catcolor }]}>
+      <View style={[style.categorydesign, { backgroundColor: categorycolor }]}>
         <Text style={style.categorydesigntext}>{event.category}</Text>
       </View>
       <Text style={style.cardtitle}>{event.name}</Text>
@@ -29,7 +29,8 @@ function EventCard({ event, isSaved, savepressed }) {
         <Text style={{ fontSize: 13, color: '#666' }}>📍 {event.venue}</Text>
         <Text style={{ fontSize: 13, color: '#666' }}>👥 {event.registrations}</Text>
       </View>
-      <Pressable style={[style.savebutton, isSaved && { backgroundColor: 'black'}]} onPress={() => savepressed(event.id)}>
+      <Pressable style={[style.savebutton, isSaved && { backgroundColor: 'black'}]}
+      onPress={() => savepressed(event.id)}>
         <Text style={[style.savebuttonText, isSaved && {color: 'white'}]}>
           {isSaved ? 'Saved' : 'Save'}
         </Text></Pressable></View>);}
@@ -45,7 +46,7 @@ export default function App() {
   useEffect(() => {
     const loadEvents = async () => {
       const data = await fetchevents();
-        const unique = ['All', ...new Set(data.map(e => e.category).filter(Boolean))];            
+        const unique = [...new Set(data.map(e => e.category).filter(Boolean))];            
         setCategories(unique);
       setAllevents(data);};
     loadEvents();}, []);
@@ -65,13 +66,11 @@ export default function App() {
     .filter(event => {
       const matchesCategory = category === 'All' || event.category === category;
       const matchesSearch =
-        search.trim() === '' ||
-        event.name.toLowerCase().includes(search.toLowerCase())
+        search.trim() === '' || event.name.toLowerCase().includes(search.toLowerCase())
       return matchesCategory && matchesSearch;})
     .sort((a, b) => {
       if (sort === 'day') return a.day - b.day;
-      if (sort === 'registrations') return b.registrations - a.registrations;
-      return 0;});
+      if (sort === 'registrations') return b.registrations - a.registrations;});
   const lineupEvents = allevents.filter(e => lineup.includes(e.id));
   return (
     <SafeAreaView style={{paddingTop: 40, backgroundColor: '#F5F5F5'}}>
@@ -82,7 +81,7 @@ export default function App() {
         <View style={style.statsRow}>
           <View style={style.statBox}>
             <Text style={style.statNumber}>{filteredEvents.length}</Text>
-            <Text style={{ fontSize: 11, color: '#888'}}>Events</Text>
+            <Text style={{fontSize: 11, color: '#888'}}>Events</Text>
           </View>
           <View style={style.statBox}>
             <Text style={[style.statNumber, { color: 'black' }]}>Music</Text>
@@ -131,7 +130,7 @@ export default function App() {
           </View>)}
         {filteredEvents.length === 0 ? (
           <View style={{ alignItems: 'center', paddingVertical: 40 }}>
-            <Text style={style.emptyText}>No events found</Text>
+            <Text style={style.noevents}>No events found</Text>
           </View>
         ) : (
           filteredEvents.map(event => (
@@ -141,12 +140,12 @@ export default function App() {
               isSaved={lineup.includes(event.id)}
               savepressed={presssave}
             />)))}
-        <Pressable style={style.lineupToggle} onPress={() => setShowLineup(prev => !prev)}>
-          <Text style={style.lineupToggleText}>My Lineup ({lineup.length})</Text></Pressable>
+        <Pressable style={style.lineupbutton} onPress={() => setShowLineup(prev => !prev)}>
+          <Text style={style.lineupbuttontext}>My Lineup ({lineup.length})</Text></Pressable>
         {showLineup && (
           <View style={{marginTop: 12}}>
             {lineupEvents.length === 0 ? (
-              <Text style={style.lineupEmpty}>No events saved yet. Tap Save on any event!</Text>
+              <Text style={style.nosave}>No events saved yet. Tap Save on any event!</Text>
             ) : (
               lineupEvents.map(event => (
                 <EventCard
@@ -162,19 +161,19 @@ const style = StyleSheet.create({
   statNumber: { fontSize: 18, fontWeight: '700', color: 'black' },
   searchInput: { backgroundColor: 'white', borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, fontSize: 15, color: 'black', marginBottom: 12, borderWidth: 2, borderColor: '#E0E0E0' },
   sortRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 14, gap: 8 },
-  sortbutton: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#CCC', backgroundColor: 'white' },
-  sortbuttonActive: { backgroundColor: 'black', borderColor: '#1A1A2E' },
-  dropdown: { backgroundColor: 'white', borderRadius: 10, marginBottom: 12, elevation: 4, borderWidth: 1, borderColor: '#E0E0E0' },
+  sortbutton: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#999', backgroundColor: 'white' },
+  sortbuttonActive: { backgroundColor: 'black', borderColor: 'black' },
+  dropdown: { backgroundColor: 'white', borderRadius: 10, marginBottom: 12, elevation: 6, borderWidth: 1, borderColor: '#999' },
   dropdownItem: { paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8 },
-  card: { backgroundColor: 'white', borderRadius: 12, padding: 14, marginBottom: 12, elevation: 3 },
+  card: { backgroundColor: 'white', borderRadius: 12, padding: 14, marginBottom: 12, elevation: 5 },
   categorydesign: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20, marginBottom: 8 },
-  categorydesigntext: { color: 'white', fontSize: 11, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
+  categorydesigntext: { color: 'white', fontSize: 11, fontWeight: '700', textTransform: 'uppercase' },
   cardtitle: { fontSize: 17, color: 'black', fontWeight: '700', marginBottom: 8 },
   cardRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  savebutton: { marginTop: 10, alignSelf: 'center', paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#CCC' },
+  savebutton: { marginTop: 10, alignSelf: 'center', paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#999' },
   savebuttonText: { fontSize: 13, color: '#666', fontWeight: '700' },
-  lineupToggle: { backgroundColor: 'black', borderRadius: 10, padding: 14, alignItems: 'center', marginTop: 8 },
-  lineupToggleText: { color: 'white', fontWeight: '700', fontSize: 15 },
-  lineupEmpty: { textAlign: 'center', color: '#999', fontSize: 14, paddingVertical: 20 },
-  emptyText: { fontSize: 16, color: '#999', fontWeight: '700', marginTop: 12 },
+  lineupbutton: { backgroundColor: 'black', borderRadius: 10, padding: 14, alignItems: 'center', marginTop: 8 },
+  lineupbuttontext: { color: 'white', fontWeight: '700', fontSize: 15 },
+  nosave: { textAlign: 'center', color: '#999', fontSize: 14, paddingVertical: 20 },
+  noevents: { fontSize: 16, color: '#999', fontWeight: '700', marginTop: 12 },
 });
