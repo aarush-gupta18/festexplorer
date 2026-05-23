@@ -1,14 +1,13 @@
-const BASE_URL = 'https://recruitments.bits-dvm.org';
+const link = 'https://recruitments.bits-dvm.org/events';
 export const fetchevents = async () => {
-    const response = await fetch(`${BASE_URL}/events`);
+    const response = await fetch(`${link}`);
     const data = await response.json();
     return data;};
-export const searchevents = async (params = {}) => {
+export const searchevents = async (a = {}) => {
     const query = new URLSearchParams();
-    if (params.category) query.append('category', params.category);
-    if (params.day)      query.append('day', params.day);
-    if (params.venue)    query.append('venue', params.venue);
-    const url = `${BASE_URL}/events/search?${query.toString()}`;
-    const response = await fetch(url);
+    if (a.category)query.append('category', a.category);
+    if (a.day)query.append('day', a.day);
+    if (a.venue)query.append('venue', a.venue);
+    const response = await fetch(`${link}/search?${query.toString()}`);
     const data = await response.json();
     return data;};
