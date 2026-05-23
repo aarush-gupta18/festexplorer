@@ -225,4 +225,4 @@ const style = StyleSheet.create({
   cardRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4, flexWrap: 'wrap', gap: 4 },
   nosave: { textAlign: 'center', color: '#999', fontSize: 14, paddingVertical: 20 },
   noevents: { fontSize: 16, color: '#999', fontWeight: '700', marginTop: 12 },
-});
+});c6 (updated)
