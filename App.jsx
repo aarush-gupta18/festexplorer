@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {fetchEvents} from './api.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {View, Text, ScrollView, StyleSheet, SafeAreaView, Pressable, Alert} from 'react-native';
